@@ -1,0 +1,115 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Admin Dashboard
+{% endblock %}
+
+{% block body%}
+
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand">
+                <h2>{{ role }}</h1>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 nav-underline">
+                    {% if role == "admin" or role == "teacher" %}
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/{{role}}_dashboard">Dashboard</a>
+                        </li>
+                        {% if role == "admin" %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/classes">Classes</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Teachers
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="/teachers">View Teachers</a></li>
+                                    <li><a class="dropdown-item" href="/add_teacher">Add Teacher</a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Students
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/student_list">View Students</a></li>
+                                <li><a class="dropdown-item" href="/students">View Attendance</a></li>
+                                {% if role == "admin" %}
+                                    <li><a class="dropdown-item" href="/add_student">Add Students</a></li>
+                                {% elif role == "teacher" %}
+                                    <li><a class="dropdown-item" href="/record_students">Mark Attendance</a></li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile">Profile</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search" action="/logout" method="post">
+                    <button class="btn btn-outline-primary" type="submit">Log Out</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-3">
+        <h1 class="">Welcome <br>
+            <span class="text-secondary">
+                {{admin.firstname}} {{admin.lastname}}
+            </span> <br>
+            the admin of <br>
+            <span class="text-info">
+                {{admin.institute}}
+            </span>
+        </h1>
+    </div>
+    <div class="container mt-5 d-flex justify-content-between">
+
+        <div class="cardd">
+            <div class="icon">
+                <img width="100" height="100" src="https://img.icons8.com/bubbles/100/classroom.png" alt="classroom" />
+            </div>
+            <h4>Total Classes</h4>
+            <div class="contact-info">
+                <h3 class="text-info">{{classes}}</h3>
+            </div>
+        </a>
+    </div>
+    <div class="cardd">
+        <div class="icon">
+            <img width="100" height="100" src="https://img.icons8.com/bubbles/100/girl-and-math-equation.png" alt="girl-and-math-equation" />
+        </div>
+        <h4>Total Teachers</h4>
+        <div class="contact-info">
+            <h3 class="text-primary">{{teachers}}</h3>
+        </div>
+    </a>
+    </div>
+    <div class="cardd">
+        <div class="icon">
+            <img width="100" height="100" src="https://img.icons8.com/bubbles/100/student-male.png" alt="student-male" />
+        </div>
+        <h4>Total Students</h4>
+        <div class="contact-info">
+            <h3 class="text-success">{{students}}</h3>
+        </div>
+    </a>
+    </div>
+
+
+
+    </div>
+
+
+
+
+{% endblock %}

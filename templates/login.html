@@ -1,0 +1,50 @@
+{% extends "layout.html" %} {% block title %} Login {% endblock %} {% block
+body%}
+<div class="container mt-5">
+  <h1 class="text-center bg-dark py-2 text-white">Student Attendance System</h1>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h2 class="text-center mb-4">Login</h2>
+      <form method="POST">
+        <div class="form-group">
+          <label for="role">Role:</label>
+          <select id="role" name="role" class="form-control" required>
+            <option value="" disabled selected>Select Role</option>
+            <option value="admin">Admin</option>
+            <option value="teacher">Teacher</option>
+            <option value="student">Student</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="username">Username:</label>
+          <input
+            autocomplete="off"
+            type="text"
+            id="username"
+            name="username"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input
+            autocomplete="off"
+            type="password"
+            id="password"
+            name="password"
+            class="form-control"
+            minlength="4"
+            required
+          />
+        </div>
+        <div class="form-group text-center mt-3">
+          <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+      </form>
+      <a href="/register">Register</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

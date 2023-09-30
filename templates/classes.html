@@ -1,0 +1,137 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    All Classes
+{% endblock %}
+
+{% block body%}
+
+    {% with success = get_flashed_messages(category_filter=['success']) %}
+        {% if success %}
+            <div class="success-message" id="message">{{ success[0] }}</div>
+        {% endif %}
+    {% endwith %}
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand">
+                <h2>{{ role }}</h1>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 nav-underline">
+                    {% if role == "admin" or role == "teacher" %}
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="/{{role}}_dashboard">Dashboard</a>
+                        </li>
+                        {% if role == "admin" %}
+                            <li class="nav-item">
+                                <a class="nav-link active" href="/classes">Classes</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Teachers
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="/teachers">View Teachers</a></li>
+                                    <li><a class="dropdown-item" href="/add_teacher">Add Teacher</a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Students
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/student_list">View Students</a></li>
+                                <li><a class="dropdown-item" href="/students">View Attendance</a></li>
+                                {% if role == "admin" %}
+                                    <li><a class="dropdown-item" href="/add_student">Add Students</a></li>
+                                {% elif role == "teacher" %}
+                                    <li><a class="dropdown-item" href="/record_students">Mark Attendance</a></li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile">Profile</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search" action="/logout" method="post">
+                    <button class="btn btn-outline-primary" type="submit">Log Out</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+    {% if role == "admin" %}
+
+
+        <div class="container mt-3">
+            <div class="row justify-content-start">
+                <div class="col-md-6">
+                    <h2 class="mb-4">Add Class</h2>
+                    <form action="/add_class" method="POST">
+
+                        <div class="form-group">
+                            <input autocomplete="off" type="text" id="course_name" name="course_name" placeholder="Class Name" class="form-control" required>
+                        </div>
+                        {% with messages = get_flashed_messages(category_filter=['error']) %}
+                            {% if messages %}
+                                <span class="text-danger" id="message">{{ messages[0] }}</span>
+                            {% endif %}
+                        {% endwith %}
+                        <div class="form-group mt-3">
+                            <button type="submit" class="btn btn-primary">Add Class</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="container mt-5">
+        {% if classes %}
+            <h2 class="mb-4">Classes</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Teacher</th>
+                        <th>Date Added</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for class in classes %}
+                        <td>{{ class.course_name }}</td>
+
+                        <td>
+                            {% if class.firstname == None or class.lastname == None %}
+                                <span class="text-danger">
+                                    Not Assigned
+                                </span>
+                            {% else %}
+
+                                {{ class.firstname }} {{ class.lastname }}
+                            {% endif %}
+                        </td>
+                        <td>{{ class.start_date }}</td>
+
+                        <td>
+                            <form method="post" action="/delete_class">
+                                <input type="hidden" name="user_id" value="{{class.id}}">
+                                <button type="submit" class="btn btn-danger" id="confirm_delete">Delete</button>
+                            </form>
+                        </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+        {% else %}
+            <h3>Currently! You have no Classes.</h3>
+        {% endif %}
+    </table>
+    </div>
+
+{% endblock %}

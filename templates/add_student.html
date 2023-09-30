@@ -1,0 +1,162 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add Student
+{% endblock %}
+
+{% block body %}
+
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand">
+                <h2>{{ role }}</h1>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 nav-underline">
+                    {% if role == "admin" or role == "teacher" %}
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="/{{role}}_dashboard">Dashboard</a>
+                        </li>
+                        {% if role == "admin" %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/classes">Classes</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Teachers
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="/teachers">View Teachers</a></li>
+                                    <li><a class="dropdown-item" href="/add_teacher">Add Teacher</a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Students
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/student_list">View Students</a></li>
+                                <li><a class="dropdown-item" href="/students">View Attendance</a></li>
+                                {% if role == "admin" %}
+                                    <li><a class="dropdown-item active" href="/add_student">Add Students</a></li>
+                                {% elif role == "teacher" %}
+                                    <li><a class="dropdown-item" href="/record_students">Mark Attendance</a></li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile">Profile</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search" action="/logout" method="post">
+                    <button class="btn btn-outline-primary" type="submit">Log Out</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container mt-5">
+        <h2>Add Student</h2>
+        <form method="POST" action="/add_student" class="needs-validation" novalidate>
+        <!-- First Name -->
+            <div class="form-group">
+                <label for="firstname">First Name</label>
+                <input autocomplete="off" type="text" class="form-control" id="firstname" name="firstname" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+                <div class="invalid-feedback">
+                    Please enter the first name.
+                </div>
+            </div>
+
+        <!-- Last Name -->
+            <div class="form-group">
+                <label for="lastname">Last Name</label>
+                <input autocomplete="off" type="text" class="form-control" id="lastname" name="lastname" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+                <div class="invalid-feedback">
+                    Please enter the last name.
+                </div>
+            </div>
+
+        <!-- Select Class -->
+            <div class="form-group">
+                <label for="class">Class</label>
+                <select class="form-control" id="class" name="course_id" required>
+                    {% if rows %}
+                        <option value="">Select a class</option>
+                        {% for row in rows %}
+                            <option value="{{ row.id }}">{{ row.course_name }}</option>
+                        {% endfor %}
+                    {% else %}
+                        <option value="" disabled selected class="text-danger">No Class found</option>
+                    {% endif %}
+                </select>
+
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+                <div class="invalid-feedback">
+                    Please select a class.
+                </div>
+            </div>
+
+        <!-- Email -->
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input autocomplete="off" type="email" class="form-control" id="email" name="email" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+                <div class="invalid-feedback">
+                    Please enter a valid email address.
+                </div>
+            </div>
+
+        <!-- Username -->
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input autocomplete="off" type="text" class="form-control" id="username" name="username" required>
+                <div class="invalid-feedback">
+                    Please enter a username.
+                </div>
+            </div>
+
+        <!-- Password -->
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input autocomplete="off" type="password" class="form-control" id="password" name="password" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+                <div class="invalid-feedback">
+                    Please enter a password.
+                </div>
+            </div>
+
+        <!-- Confirm Password -->
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password</label>
+                <input autocomplete="off" type="password" class="form-control" id="confirm_password" name="confirmation" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+                <div class="invalid-feedback">
+                    Passwords do not match.
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3">Add Student</button>
+        </form>
+    </div>
+{% endblock %}

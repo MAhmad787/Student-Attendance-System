@@ -1,0 +1,127 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    All Students
+{% endblock %}
+
+{% block body%}
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand">
+                <h2>{{ role }}</h1>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 nav-underline">
+                    {% if role == "admin" or role == "teacher" %}
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="/{{role}}_dashboard">Dashboard</a>
+                        </li>
+                        {% if role == "admin" %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/classes">Classes</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Teachers
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="/teachers">View Teachers</a></li>
+                                    <li><a class="dropdown-item" href="/add_teacher">Add Teacher</a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Students
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/student_list">View Students</a></li>
+                                <li><a class="dropdown-item" href="/students">View Attendance</a></li>
+                                {% if role == "admin" %}
+                                    <li><a class="dropdown-item" href="/add_student">Add Students</a></li>
+                                {% elif role == "teacher" %}
+                                    <li><a class="dropdown-item" href="/record_students">Mark Attendance</a></li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile">Profile</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search" action="/logout" method="post">
+                    <button class="btn btn-outline-primary" type="submit">Log Out</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+
+
+    <div class="container mt-4">
+        {% if students %}
+            <h2 class="text-center mt-3">Attendance Records</h2>
+            {% for date, students in attendance_by_date.items() %}
+                {% if date %}
+                    <h4 class="mt-4">Date: {{ date }}</h4>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Class</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student in students %}
+                                <tr>
+                                    <td>{{ student.firstname + " " + student.lastname}}</td>
+                                    <td>{{ student.course_name }}</td>
+                                    <td>
+                                        {% if student.status is none %}
+                                            Not Marked
+                                        {% else %}
+                                            {% if student.status == "present" %}
+                                                <button class="btn btn-success">
+                                                    {{ student.status }}
+                                                </button>
+                                            {% elif student.status == "absent" %}
+                                                <button class="btn btn-danger">
+                                                    {{ student.status }}
+                                                </button>
+                                            {% elif student.status == "leave" %}
+                                                <button class="btn btn-warning">
+                                                    {{ student.status }}
+                                                </button>
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <form method="post" action="/profile">
+                                            <input type="hidden" name="user_id" value="{{student.id}}">
+                                            <input type="hidden" name="check_user" value="{{user}}">
+                                            <input type="hidden" name="table" value="{{table}}">
+                                            <button type="submit" class="btn btn-primary">View Profile</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <h3 class="mt-5">Currently! You have no students.</h3>
+        {% endif %}
+
+
+    </div>
+
+
+
+{% endblock %}

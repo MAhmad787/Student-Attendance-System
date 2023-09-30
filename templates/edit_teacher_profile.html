@@ -1,0 +1,140 @@
+{% extends "layout.html" %} {% block title %} Edit Teacher {% endblock %} {%
+block body%}
+<div class="container mt-2">
+  <h2>Edit Teacher</h2>
+  <form
+    method="POST"
+    action="/edit_teacher_profile"
+    class="needs-validation"
+    novalidate
+  >
+    <!-- First Name -->
+    <div class="form-group">
+      <label for="firstname">First Name</label>
+      <input
+        autocomplete="off"
+        type="text"
+        class="form-control"
+        id="firstname"
+        name="firstname"
+        value="{{teacher.firstname}}"
+        required
+      />
+      <div class="valid-feedback">Looks good!</div>
+      <div class="invalid-feedback">Please enter the first name.</div>
+    </div>
+
+    <!-- Last Name -->
+    <div class="form-group">
+      <label for="lastname">Last Name</label>
+      <input
+        autocomplete="off"
+        type="text"
+        class="form-control"
+        id="lastname"
+        name="lastname"
+        value="{{teacher.lastname}}"
+        required
+      />
+      <div class="valid-feedback">Looks good!</div>
+      <div class="invalid-feedback">Please enter the last name.</div>
+    </div>
+
+    <!-- Email -->
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        autocomplete="off"
+        type="email"
+        class="form-control"
+        id="email"
+        name="email"
+        value="{{teacher.email}}"
+        required
+      />
+      <div class="valid-feedback">Looks good!</div>
+      <div class="invalid-feedback">Please enter a valid email address.</div>
+    </div>
+
+    <!-- Subject -->
+    <div class="form-group">
+      <label for="subject">Subject</label>
+      <input
+        autocomplete="off"
+        type="text"
+        class="form-control"
+        id="subject"
+        name="subject"
+        value="{{teacher.subject}}"
+        required
+      />
+      <div class="valid-feedback">Looks good!</div>
+      <div class="invalid-feedback">Please enter a username.</div>
+    </div>
+    <!-- Qualification -->
+    <div class="form-group">
+      <label for="qualification">Qualification</label>
+      <input
+        autocomplete="off"
+        type="text"
+        class="form-control"
+        id="qualification"
+        name="qualification"
+        value="{{teacher.qualification}}"
+        required
+      />
+      <div class="valid-feedback">Looks good!</div>
+      <div class="invalid-feedback">Please enter a Qualification.</div>
+    </div>
+
+    <!-- Username -->
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input
+        autocomplete="off"
+        type="text"
+        class="form-control"
+        id="username"
+        name="username"
+        value="{{teacher.username}}"
+        required
+      />
+      <div class="invalid-feedback">Please enter a username.</div>
+    </div>
+
+    <!-- Password -->
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        autocomplete="off"
+        type="password"
+        class="form-control"
+        id="password"
+        name="password"
+        required
+      />
+      <div class="valid-feedback">Looks good!</div>
+      <div class="invalid-feedback">Please enter a password.</div>
+    </div>
+
+    <!-- Confirm Password -->
+    <div class="form-group">
+      <label for="confirm_password">Confirm Password</label>
+      <input
+        autocomplete="off"
+        type="password"
+        class="form-control"
+        id="confirm_password"
+        name="confirmation"
+        required
+      />
+      <div class="valid-feedback">Looks good!</div>
+      <div class="invalid-feedback">Passwords do not match.</div>
+    </div>
+    <input autocomplete="off" type="hidden" name="user_id" value="{{id}}" />
+    <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+  </form>
+  <a href="/profile"><button class="btn btn-info mt-3">Cancel</button></a>
+</div>
+
+{% endblock %}

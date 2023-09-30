@@ -1,0 +1,100 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block body %}
+    <h4 class="text-center text-danger">Note that only admins can register</h4>
+
+    <h2>Register</h2>
+    <form method="POST" action="/register" class="needs-validation" novalidate>
+    <!-- First Name -->
+        <div class="form-group">
+            <label for="firstname">First Name</label>
+            <input autocomplete="off" type="text" class="form-control" id="firstname" name="firstname" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please enter the first name.
+            </div>
+        </div>
+
+    <!-- Last Name -->
+        <div class="form-group">
+            <label for="lastname">Last Name</label>
+            <input autocomplete="off" type="text" class="form-control" id="lastname" name="lastname" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please enter the last name.
+            </div>
+        </div>
+
+    <!-- Email -->
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input autocomplete="off" type="email" class="form-control" id="email" name="email" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please enter a valid email address.
+            </div>
+        </div>
+
+    <!-- Institute -->
+        <div class="form-group">
+            <label for="institute">Institute</label>
+            <input autocomplete="off" type="text" class="form-control" id="institute" name="institute" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please enter a institute name.
+            </div>
+        </div>
+
+    <!-- Username -->
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input autocomplete="off" type="text" class="form-control" id="username" name="username" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback" id="message">
+                Please enter a username.
+            </div>
+        </div>
+
+    <!-- Password -->
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input autocomplete="off" type="password" class="form-control" id="password" name="password" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please enter a password.
+            </div>
+        </div>
+
+    <!-- Confirm Password -->
+        <div class="form-group">
+            <label for="confirm_password">Confirm Password</label>
+            <input autocomplete="off" type="password" class="form-control" id="confirm_password" name="confirmation" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Passwords do not match.
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Register</button>
+    </form>
+    <a href="/login">Log In</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {{ user.firstname}}'s Profile
+{% endblock %}
+
+{% block body%}
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand">
+                <h2>{{ role }}</h1>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 nav-underline">
+                    {% if role == "admin" or role == "teacher" %}
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="/{{role}}_dashboard">Dashboard</a>
+                        </li>
+                        {% if role == "admin" %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/classes">Classes</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Teachers
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="/teachers">View Teachers</a></li>
+                                    <li><a class="dropdown-item" href="/add_teacher">Add Teacher</a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Students
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/student_list">View Students</a></li>
+                                <li><a class="dropdown-item" href="/students">View Attendance</a></li>
+                                {% if role == "admin" %}
+                                    <li><a class="dropdown-item" href="/add_student">Add Students</a></li>
+                                {% elif role == "teacher" %}
+                                    <li><a class="dropdown-item" href="/record_students">Mark Attendance</a></li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/profile">Profile</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search" action="/logout" method="post">
+                    <button class="btn btn-outline-primary" type="submit">Log Out</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container mt-4">
+        <h2>Student Infromation</h2>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">First Name: {{ user.firstname }}</h5>
+                <h5 class="card-title">Last Name: {{ user.lastname }}</h5>
+                {% if org %}
+                <h5 class="card-title">Institute: {{ org.institute}}</h5>
+                {% endif %}
+                <h5 class="card-title">Teacher Name: {{ teacher.firstname }} {{ teacher.lastname }}</h5>
+                <h5 class="card-title">Class: {{ course.course_name}}</h5>
+                <h5 class="card-title">User Name: {{ user.username }}</h5>
+                <h5 class="card-title">Email: {{ user.email }}</h5>
+            </div>
+        </div>
+        {% if role == "admin" %}
+            <a href="{{ url_for('edit_student_profile', student_id=user.id) }}" class="btn btn-primary mt-3">Edit Student</a>
+        {% endif %}
+    </div>
+
+{% endblock %}
