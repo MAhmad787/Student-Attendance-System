@@ -394,7 +394,7 @@ def record_attendance():
         student_id = request.form.get("user_id")
         today = date.today()
         formatted_date = today.strftime("%Y-%m-%d")  # Format the date as needed
-        # formatted_date = "2023-09-27"
+        # formatted_date = "2023-09-26"
         status = request.form.get("status")
         existing_attendance = db.execute(
             "SELECT * FROM attendance WHERE student_id = ? AND date = ?",
@@ -943,5 +943,4 @@ def delete_student():
         return redirect("/student_list")
     else:
         return redirect("/student_list")
-
 
